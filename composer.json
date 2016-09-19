@@ -1,0 +1,30 @@
+{
+	"name" : "iubar/iubar-slim-core",
+	"type" : "library",
+	"description" : "Common classes for slim",
+	"keywords" : [
+		"slim"
+	],
+	"homepage" : "http://www.iubar.it",
+	"license" : "MPL",
+	"authors" : [
+		{
+			"name" : "Andrea Borgogelli Avveduti",
+			"homepage" : "http://www.iubar.it"
+		}
+	],
+	"require": {	    
+		"psr/log" : "1.0.0",
+		"monolog/monolog" : "1.13.1",
+		"bramus/monolog-colored-line-formatter" : "~2.0",
+        "swiftmailer/swiftmailer": "*",
+        "devster/ubench" : "*",
+        "league/climate" : "*"
+    },
+	"autoload" : {
+		"psr-4" : {
+			"Iubar\\" : "src/Iubar/"
+		}
+	}
+	
+}
