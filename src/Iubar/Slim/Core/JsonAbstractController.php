@@ -82,7 +82,9 @@ abstract class JsonAbstractController extends AbstractController {
 	    return $error;
 	}
 		
-	
+	/**
+	 * {@inheritdoc}
+	 */	
 	protected function handleException($e){
 	    $this->app->log->error($e->getMessage());
 	    if($this->app->config('debug2')){

@@ -10,6 +10,9 @@ abstract class HtmlAbstractController extends AbstractController {
 		parent::__construct();		
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */	
 	protected function handleException($e){
 	    $this->app->log->error($e->getMessage());
 	    throw $e; // Whoops will output the error	    

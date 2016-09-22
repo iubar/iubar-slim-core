@@ -19,7 +19,8 @@
 		"bramus/monolog-colored-line-formatter" : "~2.0",
         "swiftmailer/swiftmailer": "*",
         "devster/ubench" : "*",
-        "league/climate" : "*"
+        "league/climate" : "*",
+        "twig/extensions" : "dev-master"
     },
 	"autoload" : {
 		"psr-4" : {

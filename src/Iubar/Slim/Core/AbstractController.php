@@ -4,10 +4,10 @@ namespace Iubar\Slim\Core;
 	
 abstract class AbstractController {
 	
+    protected static $k = 0;
+    
 	protected $app = null;
-	
-	protected static $k = 0;
-	
+		
 	abstract protected function handleException($e);
 	
 	public function __construct(){
