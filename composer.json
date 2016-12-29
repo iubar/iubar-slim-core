@@ -21,7 +21,7 @@
 	],
 	"require": {	    
 		"psr/log" : "1.0.0",
-        "twig/extensions" : "dev-master@dev",
+        "twig/extensions" : "v1.4.1",
         "iubar/iubar-php-common": "dev-master@dev"
     },
 	"autoload" : {
