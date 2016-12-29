@@ -26,7 +26,7 @@
         "swiftmailer/swiftmailer": "*",
         "devster/ubench" : "*",
         "league/climate" : "*",
-        "twig/extensions" : "dev-master",
+        "twig/extensions" : "dev-master@dev",
         "iubar/iubar-php-common": "dev-master@dev"
     },
 	"autoload" : {

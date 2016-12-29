@@ -56,7 +56,7 @@ abstract class JsonSafeAbstractController extends JsonAbstractController {
         }else{
             $api_key = $this->getApikey($this->user);
             // $new_api_key = \Application\Utils\ApiKeyUtils::create();
-            $expected_hash = $this->calcHash(); // WARNING: security breach !!!
+            $expected_hash = $this->calcHash();
 
             if($expected_hash != $this->hash){
                 $error = "Message authentication failed: Wrong hash !";
