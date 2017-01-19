@@ -20,7 +20,9 @@
 		}
 	],
 	"require": {	    
-		"psr/log" : "1.0.0",
+        "slim/slim": "2.*",
+        "slim/views": "0.*",
+        "twig/twig": "1.*",
         "twig/extensions" : "v1.4.1",
         "iubar/iubar-php-common": "dev-master@dev"
     },
