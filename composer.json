@@ -24,7 +24,7 @@
         "slim/views": "0.*",
         "twig/twig": "1.*",
         "twig/extensions" : "v1.4.1",
-        "iubar/iubar-php-common": "dev-master@dev"
+        "iubar/iubar-php-common": "*"
     },
 	"autoload" : {
 		"psr-4" : {
