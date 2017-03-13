@@ -2,8 +2,8 @@
 
 namespace Iubar\Slim\Core;
 
-use Iubar\Core\JsonAbstractController;
-use Iubar\Core\ResponseCode;
+use Iubar\Slim\Core\JsonAbstractController;
+use Iubar\Slim\Core\ResponseCode;
 
 /**
  *

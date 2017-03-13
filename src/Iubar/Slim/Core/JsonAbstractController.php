@@ -2,7 +2,7 @@
 
 namespace Iubar\Slim\Core;
 
-use Iubar\Core\ResponseCode;
+use Iubar\Slim\Core\ResponseCode;
 
 abstract class JsonAbstractController extends AbstractController {
 
