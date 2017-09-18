@@ -1,4 +1,4 @@
 # iubar-slim-core
 
+![alt text](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/iubar/iubar-slim-core/master/components.puml "Componenets diagram")
 
-http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/iubar/iubar-slim-core/master/components.puml
