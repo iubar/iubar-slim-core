@@ -4,7 +4,7 @@ namespace Iubar\Slim\Core;
 
 use Iubar\Slim\Core\JsonAbstractController;
 use Iubar\Slim\Core\ResponseCode;
-
+use Iubar\Misc\Encryption;
 /**
  *
  * @author Daniele
@@ -26,9 +26,10 @@ abstract class JsonSafeAbstractController extends JsonAbstractController {
     protected function isAuthenticated(){
         $request = $this->app->request;
         $this->user = $request->params('user');
-        $this->ts_str = rawurldecode($request->params('ts'));
+        // E' inutile invocare rawurldecode(), poichè  $request->params() effettua già la stessa decodifica
+        // $this->ts_str = rawurldecode($request->params('ts'));
+        $this->ts_str = $request->params('ts');
         $this->hash = $request->params('hash');
-
         $b = $this->validate();
         if(!$b){
             $this->sendHmacError();
@@ -91,12 +92,12 @@ abstract class JsonSafeAbstractController extends JsonAbstractController {
         if(!$this->user || !$this->ts_str || !$this->hash){
             return false;
         }
-         
+
         $api_key = $this->getApikey($this->user);
         if(!$api_key){
             return false;
         }
-         
+
         $ts = $this->parseTimestamp($this->ts_str);
         if(!$ts || !self::isTimeStampValid($ts)){
             return false;
@@ -107,9 +108,9 @@ abstract class JsonSafeAbstractController extends JsonAbstractController {
             return false;
         }
 
-         
 
-        if(\Iubar\Misc\Encryption::hashEquals($expected, $this->hash)){ // hash_equals($expected, $this->hash); // Solo per PHP > 5.6
+
+        if(Encryption::hashEquals($expected, $this->hash)){ // hash_equals($expected, $this->hash); // Solo per PHP > 5.6
             return true;
         }else{
             return false;
