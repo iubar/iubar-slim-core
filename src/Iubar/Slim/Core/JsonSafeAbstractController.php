@@ -72,7 +72,7 @@ abstract class JsonSafeAbstractController extends JsonAbstractController {
         $hash = null;
         $request = $this->app->request;
         if($this->user && $this->ts_str && $api_key){
-            $url = 'http://' . $_SERVER['HTTP_HOST'] . $request->getRootUri() . $request->getResourceUri();
+            $url = 'http://' . $_SERVER['HTTP_HOST'] . $request->getResourceUri(); // note: here $request->getRootUri() returns the empty string
             $data = $url . $this->user . $this->ts_str . $api_key;
             $raw_hash = hash_hmac('sha256', $data, $api_key, true); // Vedi https://en.wikipedia.org/wiki/Hash-based_message_authentication_code
             $hash = base64_encode($raw_hash);
