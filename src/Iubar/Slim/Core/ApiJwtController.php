@@ -116,6 +116,8 @@ abstract class ApiJwtController extends JsonAbstractController {
 		$jwt = JWT::encode($data, // Data to be encoded in the JWT
 			$secret_key, // The signing key
 			$this->algorithm); // Algorithm used to sign the token, see https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40#section-3
+
+		return $jwt;
 	}
 
 	protected function decodeJwtToken($jwt) {
