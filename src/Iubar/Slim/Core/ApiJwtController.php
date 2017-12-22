@@ -64,7 +64,7 @@ abstract class ApiJwtController extends JsonAbstractController {
 	}
 
 	private function createToken($user_id) {
-		$tokenId = base64_encode(mcrypt_create_iv(32));
+		$token_id = base64_encode(mcrypt_create_iv(32));
 		$issued_at = time();
 		$not_before = $issued_at + 10; // Adding 10 seconds
 		$expire = $not_before + 60; // Adding 60 seconds
@@ -76,7 +76,7 @@ abstract class ApiJwtController extends JsonAbstractController {
 			'iss' => $server_name, // Issuer
 			'iat' => $issued_at, // Issued at: time when the token was generated
 			'nbf' => $not_before, // Not before
-			'jti' => $tokenId, // Json Token Id: an unique identifier for the token
+			'jti' => $token_id, // Json Token Id: an unique identifier for the token
 			'exp' => $expire, // Expire
 
 			/*
