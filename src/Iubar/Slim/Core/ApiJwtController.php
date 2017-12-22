@@ -66,8 +66,8 @@ abstract class ApiJwtController extends JsonAbstractController {
 	private function createToken($user_id) {
 		$tokenId = base64_encode(mcrypt_create_iv(32));
 		$issued_at = time();
-		$not_before = $issuedAt + 10; // Adding 10 seconds
-		$expire = $notBefore + 60; // Adding 60 seconds
+		$not_before = $issued_at + 10; // Adding 10 seconds
+		$expire = $not_before + 60; // Adding 60 seconds
 		$server_name = $_SERVER['HTTP_HOST'];
 
 		// Create the token as an array
