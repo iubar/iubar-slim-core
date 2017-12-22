@@ -152,7 +152,7 @@ abstract class ApiJwtController extends JsonAbstractController {
 
 	private function isUserRegistered($email) {
 		if (!$this->getApikey($email)) {
-			return false
+			return false;
 		}
 		return true;
 	}
