@@ -50,7 +50,7 @@ abstract class JsonSimpleSafeAbstractController extends JsonAbstractController {
 		}else if(!$ts){
 			$error = "Message authentication failed: Wrong timestamp format!";
 			$code = ResponseCode::BAD_REQUEST;
-		}else if(!self::isTimeStampValid($ts)){
+		}else if(!$this->isTimeStampValid($ts)){
 			$error = "Message authentication failed: Time offeset is too big !";
 			$code = ResponseCode::UNAUTHORIZED;
 		}else{
@@ -100,7 +100,7 @@ abstract class JsonSimpleSafeAbstractController extends JsonAbstractController {
 		}
 
 		$ts = $this->parseTimestamp($this->ts_str);
-		if(!$ts || !self::isTimeStampValid($ts)){
+		if(!$ts || !$this->isTimeStampValid($ts)){
 			return false;
 		}
 
@@ -130,7 +130,7 @@ abstract class JsonSimpleSafeAbstractController extends JsonAbstractController {
 
 
 
-	protected static function isTimeStampValid(\DateTime $dateTime){ // here default time-window is 20 minutes (1200 seconds)
+	protected function isTimeStampValid(\DateTime $dateTime){ // here default time-window is 20 minutes (1200 seconds)
 		// Note: a common issue when using time-windows for request,
 		// is that either server or client is not using the correct time.
 		// Make sure both server and client are using systems like NTP to keep times in sync
