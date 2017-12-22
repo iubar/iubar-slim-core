@@ -7,29 +7,27 @@
 	],
 	"homepage" : "http://www.iubar.it",
 	"license" : "MPL",
-	"authors" : [
-		{
+	"authors" : [{
 			"name" : "Andrea Borgogelli Avveduti",
 			"homepage" : "http://www.iubar.it"
 		}
 	],
-	"repositories": [
-		{
-			"type": "git",
-			"url": "https://github.com/iubar/iubar-php-common.git"
+	"repositories" : [{
+			"type" : "git",
+			"url" : "https://github.com/iubar/iubar-php-common.git"
 		}
 	],
-	"require": {	    
-        "slim/slim": "2.*",
-        "slim/views": "0.*",
-        "twig/twig": "1.*",
-        "twig/extensions" : "v1.4.1",
-        "iubar/iubar-php-common": "*"
-    },
+	"require" : {
+		"slim/slim" : "2.*",
+		"slim/views" : "0.*",
+		"twig/twig" : "1.*",
+		"twig/extensions" : "v1.4.1",
+		"iubar/iubar-php-common" : "*",
+		"firebase/php-jwt" : "*"
+	},
 	"autoload" : {
 		"psr-4" : {
 			"Iubar\\Slim\\" : "src/Iubar/Slim/"
 		}
 	}
-	
 }
