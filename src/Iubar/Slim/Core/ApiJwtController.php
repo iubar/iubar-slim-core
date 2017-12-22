@@ -63,8 +63,12 @@ abstract class ApiJwtController extends JsonAbstractController {
 		return $jwt_as_json;
 	}
 
+	/**
+	 * @todo: sistituire mcrypt_create_iv() con funzione non deprecata
+	 * @param unknown $user_id
+	 */
 	private function createToken($user_id) {
-		$token_id = base64_encode(mcrypt_create_iv(32));
+		$token_id = base64_encode(@mcrypt_create_iv(32));
 		$issued_at = time();
 		$not_before = $issued_at + 10; // Adding 10 seconds
 		$expire = $not_before + 60; // Adding 60 seconds
