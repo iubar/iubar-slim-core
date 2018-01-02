@@ -5,6 +5,9 @@ use Iubar\Slim\Core\JsonAbstractController;
 use Iubar\Slim\Core\ResponseCode;
 use Iubar\Misc\Encryption;
 use Firebase\JWT\JWT;
+use Firebase\JWT\SignatureInvalidException;
+use Firebase\JWT\BeforeValidException;
+use Firebase\JWT\ExpiredException;
 
 abstract class ApiJwtController extends JsonAbstractController {
 
@@ -41,6 +44,12 @@ abstract class ApiJwtController extends JsonAbstractController {
 				if (!empty($decoded_array)) {
 					return true;
 				}
+			} catch (SignatureInvalidException $e) {
+				$this->responseStatus(ResponseCode::UNAUTHORIZED, [], $e->getMessage());
+			} catch (BeforeValidException $e) {
+				$this->responseStatus(ResponseCode::UNAUTHORIZED, [], $e->getMessage());
+			} catch (ExpiredException $e) {
+				$this->responseStatus(ResponseCode::UNAUTHORIZED, [], $e->getMessage());
 			} catch (\Exception $e) {
 				// the token was not able to be decoded.
 				// this is likely because the signature was not able to be verified (tampered token)
