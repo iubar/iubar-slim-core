@@ -8,7 +8,7 @@ class JwtManager {
 
 	const ALGORITHM = 'HS512';
 
-	public static function createToken($user_id, $api_key) {
+	public static function createToken($email, $api_key) {
 		$token_id = base64_encode(@mcrypt_create_iv(32));
 		$issued_at = time();
 		$not_before = $issued_at + 10; // Adding 10 seconds
@@ -39,7 +39,7 @@ class JwtManager {
 			'data' => [ // Data related to the signer user
 				// 'userId' => $rs['id'], // userid from the users table
 				// 'userName' => $username, // User name
-				'userId' => $user_id
+				'userId' => $email
 			]
 		];
 

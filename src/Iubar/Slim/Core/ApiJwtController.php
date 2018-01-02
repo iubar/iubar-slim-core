@@ -8,7 +8,7 @@ use Firebase\JWT\ExpiredException;
 
 abstract class ApiJwtController extends JsonAbstractController {
 
-	abstract protected function getApikey($user_id);
+	abstract protected function getApikey($email);
 
 	public function __construct() {
 		parent::__construct();
@@ -17,11 +17,11 @@ abstract class ApiJwtController extends JsonAbstractController {
 	protected function isAuthenticated() {
 		$request = \Slim\Slim::getInstance()->request;
 		$token = $request->params('token');
-		$user_id = $request->params('user_id');
-		if ($token && $user_id) {
+		$email = $request->params('email');
+		if ($token && $email) {
 			try {
 				// decode the jwt using the key from config
-				$secret_key = $this->getApikey($user_id);
+				$secret_key = $this->getApikey($email);
 
 				// You can add a leeway to account for when there is a clock skew times between
 				// the signing and verifying servers. It is recommended that this leeway should
@@ -49,15 +49,15 @@ abstract class ApiJwtController extends JsonAbstractController {
 			}
 		} else {
 			// The request lacks the authorization token
-			$this->responseStatus(ResponseCode::BAD_REQUEST, [], 'Token or user_id not found in request');
+			$this->responseStatus(ResponseCode::BAD_REQUEST, [], 'Token or email not found in request');
 		}
 
 		return false;
 	}
 
-	public function buildJwtToken($user_id) {
-		$api_key = $this->getApikey($user_id);
-		$jwt = JwtManager::createToken($user_id, $api_key);
+	public function buildJwtToken($email) {
+		$api_key = $this->getApikey($email);
+		$jwt = JwtManager::createToken($email, $api_key);
 		$unencoded_array = [
 			'jwt' => $jwt
 		];
@@ -66,7 +66,7 @@ abstract class ApiJwtController extends JsonAbstractController {
 	}
 
 	protected function decodeJwtToken($jwt) {
-		$secret_key = $this->getApikey($user_id);
+		$secret_key = $this->getApikey($email);
 		JWT::$leeway = 60; // $leeway in seconds
 		$token = JWT::decode($jwt, $secret_key, array(
 			JwtManager::ALGORITHM
@@ -77,13 +77,13 @@ abstract class ApiJwtController extends JsonAbstractController {
 		return $token;
 	}
 
-	protected function getJwtToken($user_id) {
+	protected function getJwtToken($email) {
 		$token = null;
-		$api_key = $this->getApikey($user_id);
-		if ($this->isUserRegistered($user_id)) {
-			$token = JwtManager::createToken($user_id, $api_key);
+		$api_key = $this->getApikey($email);
+		if ($this->isUserRegistered($email)) {
+			$token = JwtManager::createToken($email, $api_key);
 		} else {
-			throw new \InvalidArgumentException('user_id or api key wrong');
+			throw new \InvalidArgumentException('email or api key wrong');
 		}
 
 		return $token;
@@ -92,17 +92,17 @@ abstract class ApiJwtController extends JsonAbstractController {
 	private function isJwtArrayValid(array $data) {
 		$b = false;
 		if (isset($data['data'])) {
-			$user_id = $data['data']->userId;
-			if ($user_id !== null) {
-				$b = $this->isUserRegistered($user_id);
+			$email = $data['data']->userId;
+			if ($email !== null) {
+				$b = $this->isUserRegistered($email);
 			}
 		}
 
 		return $b;
 	}
 
-	private function isUserRegistered($user_id) {
-		if (!$this->getApikey($user_id)) {
+	private function isUserRegistered($email) {
+		if (!$this->getApikey($email)) {
 			return false;
 		}
 		return true;
