@@ -19,10 +19,11 @@ abstract class ApiJwtController extends JsonAbstractController {
 	protected function isAuthenticated() {
 		$request = \Slim\Slim::getInstance()->request;
 		$jwt = $request->params('jwt');
+		$email = $request->params('email');
 		if ($jwt) {
 			try {
 				// decode the jwt using the key from config
-				$secret_key = $this->getApikey($user_id);
+				$secret_key = $this->getApikey($email);
 
 				// You can add a leeway to account for when there is a clock skew times between
 				// the signing and verifying servers. It is recommended that this leeway should
@@ -66,8 +67,9 @@ abstract class ApiJwtController extends JsonAbstractController {
 	}
 
 	/**
-	 * @todo: sistituire mcrypt_create_iv() con funzione non deprecata
-	 * @param unknown $user_id
+	 *
+	 * @param string $user_id
+	 * @return string
 	 */
 	private function createToken($user_id) {
 		$token_id = base64_encode(@mcrypt_create_iv(32));
