@@ -30,7 +30,7 @@ abstract class ApiJwtController extends JsonAbstractController {
 				// Source: http://self-issued.info/docs/draft-ietf-oauth-json-web-token.html#nbfDef
 				JWT::$leeway = 60; // $leeway in seconds
 
-				$token = JWT::decode($jwt, $secret_key, array(
+				$decoded = JWT::decode($jwt, $secret_key, array(
 					$this->algorithm
 				));
 
@@ -44,14 +44,11 @@ abstract class ApiJwtController extends JsonAbstractController {
 			} catch (\Exception $e) {
 				// the token was not able to be decoded.
 				// this is likely because the signature was not able to be verified (tampered token)
-// 				header('HTTP/1.0 401 Unauthorized');
-				throw new UnauthorizedException('Unauthorized');
+				$this->responseStatus(ResponseCode::UNAUTHORIZED, [], 'Unauthorized');
 			}
 		} else {
 			// The request lacks the authorization token
-// 			header('HTTP/1.0 400 Bad Request');
-// 			echo 'Token not found in request';
-			throw new BadRequestException('Token not found in request');
+			$this->responseStatus(ResponseCode::BAD_REQUEST, [], 'Token not found in request');
 		}
 
 		return false;
