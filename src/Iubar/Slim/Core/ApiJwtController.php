@@ -22,7 +22,7 @@ abstract class ApiJwtController extends JsonAbstractController {
 		if ($jwt) {
 			try {
 				// decode the jwt using the key from config
-				$secretKey = $this->getApikey($user_id);
+				$secret_key = $this->getApikey($user_id);
 
 				// You can add a leeway to account for when there is a clock skew times between
 				// the signing and verifying servers. It is recommended that this leeway should
@@ -30,7 +30,7 @@ abstract class ApiJwtController extends JsonAbstractController {
 				// Source: http://self-issued.info/docs/draft-ietf-oauth-json-web-token.html#nbfDef
 				JWT::$leeway = 60; // $leeway in seconds
 
-				$token = JWT::decode($jwt, $secretKey, array(
+				$token = JWT::decode($jwt, $secret_key, array(
 					$this->algorithm
 				));
 
