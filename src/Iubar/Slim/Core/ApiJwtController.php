@@ -18,9 +18,9 @@ abstract class ApiJwtController extends JsonAbstractController {
 
 	protected function isAuthenticated() {
 		$request = \Slim\Slim::getInstance()->request;
-		$jwt = $request->params('jwt');
+		$token = $request->params('token');
 		$email = $request->params('email');
-		if ($jwt) {
+		if ($token && $email) {
 			try {
 				// decode the jwt using the key from config
 				$secret_key = $this->getApikey($email);
@@ -31,7 +31,7 @@ abstract class ApiJwtController extends JsonAbstractController {
 				// Source: http://self-issued.info/docs/draft-ietf-oauth-json-web-token.html#nbfDef
 				JWT::$leeway = 60; // $leeway in seconds
 
-				$decoded = JWT::decode($jwt, $secret_key, array(
+				$decoded = JWT::decode($token, $secret_key, array(
 					$this->algorithm
 				));
 
@@ -51,7 +51,7 @@ abstract class ApiJwtController extends JsonAbstractController {
 			}
 		} else {
 			// The request lacks the authorization token
-			$this->responseStatus(ResponseCode::BAD_REQUEST, [], 'Token not found in request');
+			$this->responseStatus(ResponseCode::BAD_REQUEST, [], 'Token / email not found in request');
 		}
 
 		return false;
