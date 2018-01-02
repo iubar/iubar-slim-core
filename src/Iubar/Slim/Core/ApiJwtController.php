@@ -17,6 +17,7 @@ abstract class ApiJwtController extends JsonAbstractController {
 	}
 
 	protected function isAuthenticated() {
+		$request = \Slim\Slim::getInstance()->request;
 		$jwt = $request->params('jwt');
 		if ($jwt) {
 			try {
