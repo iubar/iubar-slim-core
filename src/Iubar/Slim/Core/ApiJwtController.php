@@ -17,11 +17,11 @@ abstract class ApiJwtController extends JsonAbstractController {
 	protected function isAuthenticated() {
 		$request = \Slim\Slim::getInstance()->request;
 		$token = $request->params('token');
-		$email = $request->params('email');
-		if ($token && $email) {
+		$user_id = $request->params('user_id');
+		if ($token && $user_id) {
 			try {
 				// decode the jwt using the key from config
-				$secret_key = $this->getApikey($email);
+				$secret_key = $this->getApikey($user_id);
 
 				// You can add a leeway to account for when there is a clock skew times between
 				// the signing and verifying servers. It is recommended that this leeway should
@@ -49,7 +49,7 @@ abstract class ApiJwtController extends JsonAbstractController {
 			}
 		} else {
 			// The request lacks the authorization token
-			$this->responseStatus(ResponseCode::BAD_REQUEST, [], 'Token or email not found in request');
+			$this->responseStatus(ResponseCode::BAD_REQUEST, [], 'Token or user_id not found in request');
 		}
 
 		return false;
@@ -77,13 +77,13 @@ abstract class ApiJwtController extends JsonAbstractController {
 		return $token;
 	}
 
-	protected function getJwtToken($email) {
+	protected function getJwtToken($user_id) {
 		$token = null;
-		$api_key = $this->getApikey($email);
-		if ($this->isUserRegistered($email)) {
-			$token = JwtManager::createToken($email, $api_key);
+		$api_key = $this->getApikey($user_id);
+		if ($this->isUserRegistered($user_id)) {
+			$token = JwtManager::createToken($user_id, $api_key);
 		} else {
-			throw new \InvalidArgumentException('Email or api key wrong');
+			throw new \InvalidArgumentException('user_id or api key wrong');
 		}
 
 		return $token;
@@ -92,17 +92,17 @@ abstract class ApiJwtController extends JsonAbstractController {
 	private function isJwtArrayValid(array $data) {
 		$b = false;
 		if (isset($data['data'])) {
-			$email = $data['data']->userId;
-			if ($email !== null) {
-				$b = $this->isUserRegistered($email);
+			$user_id = $data['data']->userId;
+			if ($user_id !== null) {
+				$b = $this->isUserRegistered($user_id);
 			}
 		}
 
 		return $b;
 	}
 
-	private function isUserRegistered($email) {
-		if (!$this->getApikey($email)) {
+	private function isUserRegistered($user_id) {
+		if (!$this->getApikey($user_id)) {
 			return false;
 		}
 		return true;
