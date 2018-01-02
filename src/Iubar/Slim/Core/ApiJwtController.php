@@ -45,15 +45,11 @@ abstract class ApiJwtController extends JsonAbstractController {
 					return true;
 				}
 			} catch (SignatureInvalidException $e) {
-				$this->responseStatus(ResponseCode::UNAUTHORIZED, [], $e->getMessage());
+				$this->responseStatus(ResponseCode::UNAUTHORIZED, [], 'Unauthorized (signature invalid)');
 			} catch (BeforeValidException $e) {
-				$this->responseStatus(ResponseCode::UNAUTHORIZED, [], $e->getMessage());
+				$this->responseStatus(ResponseCode::UNAUTHORIZED, [], 'Unauthorized (before valid)');
 			} catch (ExpiredException $e) {
-				$this->responseStatus(ResponseCode::UNAUTHORIZED, [], $e->getMessage());
-			} catch (\Exception $e) {
-				// the token was not able to be decoded.
-				// this is likely because the signature was not able to be verified (tampered token)
-				$this->responseStatus(ResponseCode::UNAUTHORIZED, [], 'Unauthorized');
+				$this->responseStatus(ResponseCode::UNAUTHORIZED, [], 'Unauthorized (expired)');
 			}
 		} else {
 			// The request lacks the authorization token
