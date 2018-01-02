@@ -1,9 +1,6 @@
 <?php
 namespace Iubar\Slim\Core;
 
-use Iubar\Slim\Core\JsonAbstractController;
-use Iubar\Slim\Core\ResponseCode;
-use Iubar\Misc\Encryption;
 use Firebase\JWT\JWT;
 use Firebase\JWT\SignatureInvalidException;
 use Firebase\JWT\BeforeValidException;
@@ -61,11 +58,11 @@ abstract class ApiJwtController extends JsonAbstractController {
 
 	public function buildJwtToken($user_id) {
 		$jwt = $this->createToken($user_id);
-		$unencodedArray = [
+		$unencoded_array = [
 			'jwt' => $jwt
 		];
-		$jwt_as_json = json_encode($unencodedArray);
-		return $jwt_as_json;
+
+		return json_encode($unencoded_array);
 	}
 
 	/**
@@ -118,21 +115,21 @@ abstract class ApiJwtController extends JsonAbstractController {
 		// Encode the array to a JWT string.
 		// Second parameter is the key to encode the token.
 		// The output string can be validated at http://jwt.io/
-		$jwt = JWT::encode($data, // Data to be encoded in the JWT
+		return JWT::encode(
+			$data, // Data to be encoded in the JWT
 			$secret_key, // The signing key
-			$this->algorithm); // Algorithm used to sign the token, see https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40#section-3
-
-		return $jwt;
+			$this->algorithm // Algorithm used to sign the token, see https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40#section-3
+		);
 	}
 
 	protected function decodeJwtToken($jwt) {
-		$secretKey = $this->getApikey($user_id);
+		$secret_key = $this->getApikey($user_id);
 		JWT::$leeway = 60; // $leeway in seconds
-		$token = JWT::decode($jwt, $secretKey, array(
+		$token = JWT::decode($jwt, $secret_key, array(
 			$this->algorithm
 		));
 		if (!$this->isJwtArrayValid($token)) {
-			throw new \LogicException('Wrong Jwt array'); // TODO: meglio restituire errore 401 Unauthorized
+			$this->responseStatus(ResponseCode::UNAUTHORIZED, [], 'Unauthorized (wrong Jwt array)');
 		}
 		return $token;
 	}
@@ -152,7 +149,7 @@ abstract class ApiJwtController extends JsonAbstractController {
 	private function isJwtArrayValid(array $data) {
 		$b = false;
 		if (isset($data['data'])) {
-			$email = $data['data']->user;
+			$email = $data['data']->userId;
 			if ($email !== null) {
 				$b = $this->isUserRegistered($email);
 			}
