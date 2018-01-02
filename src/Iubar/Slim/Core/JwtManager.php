@@ -6,7 +6,9 @@ use Firebase\JWT\JWT;
 
 class JwtManager {
 
-	public static function createToken($user_id) {
+	const ALGORITHM = 'HS512';
+
+	public static function createToken($user_id, $api_key) {
 		$token_id = base64_encode(@mcrypt_create_iv(32));
 		$issued_at = time();
 		$not_before = $issued_at + 10; // Adding 10 seconds
@@ -47,7 +49,7 @@ class JwtManager {
 		// store it in encoded in a config file.
 		// Can be generated with base64_encode(openssl_random_pseudo_bytes(64));
 		// keep it secure! You'll need the exact key to verify the token later.
-		$secret_key = $this->getApikey($user_id);
+		$secret_key = $api_key;
 
 		// Encode the array to a JWT string.
 		// Second parameter is the key to encode the token.
@@ -55,7 +57,7 @@ class JwtManager {
 		return JWT::encode(
 			$data, // Data to be encoded in the JWT
 			$secret_key, // The signing key
-			$this->algorithm // Algorithm used to sign the token, see https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40#section-3
+			self::ALGORITHM // Algorithm used to sign the token, see https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40#section-3
 		);
 	}
 

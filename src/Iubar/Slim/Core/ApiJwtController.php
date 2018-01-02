@@ -10,8 +10,6 @@ abstract class ApiJwtController extends JsonAbstractController {
 
 	abstract protected function getApikey($user_id);
 
-	private $algorithm = 'HS512';
-
 	public function __construct() {
 		parent::__construct();
 	}
@@ -32,7 +30,7 @@ abstract class ApiJwtController extends JsonAbstractController {
 				JWT::$leeway = 60; // $leeway in seconds
 
 				$decoded = JWT::decode($token, $secret_key, array(
-					$this->algorithm
+					JwtManager::ALGORITHM
 				));
 
 				// NOTE: This will now be an object instead of an associative array. To get
@@ -58,7 +56,8 @@ abstract class ApiJwtController extends JsonAbstractController {
 	}
 
 	public function buildJwtToken($user_id) {
-		$jwt = JwtManager::createToken($user_id);
+		$api_key = $this->getApikey($user_id);
+		$jwt = JwtManager::createToken($user_id, $api_key);
 		$unencoded_array = [
 			'jwt' => $jwt
 		];
@@ -70,7 +69,7 @@ abstract class ApiJwtController extends JsonAbstractController {
 		$secret_key = $this->getApikey($user_id);
 		JWT::$leeway = 60; // $leeway in seconds
 		$token = JWT::decode($jwt, $secret_key, array(
-			$this->algorithm
+			JwtManager::ALGORITHM
 		));
 		if (!$this->isJwtArrayValid($token)) {
 			$this->responseStatus(ResponseCode::UNAUTHORIZED, [], 'Unauthorized (wrong Jwt array)');
@@ -82,7 +81,7 @@ abstract class ApiJwtController extends JsonAbstractController {
 		$token = null;
 		$api_key = $this->getApikey($email);
 		if ($this->isUserRegistered($email)) {
-			$token = JwtManager::createToken($email);
+			$token = JwtManager::createToken($email, $api_key);
 		} else {
 			throw new \InvalidArgumentException('Email or api key wrong');
 		}
