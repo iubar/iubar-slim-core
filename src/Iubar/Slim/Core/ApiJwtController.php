@@ -15,12 +15,16 @@ abstract class ApiJwtController extends JsonAbstractController {
 	}
 
 	protected function isAuthenticated() {
+		$token = null;
+		$email = null;
 		$data = $this->readData();
-		if(isset($data['token'])){
-			$token = $data['token'];
-		}
-		if(isset($data['email'])){
-			$email = $data['email'];
+		if(is_array($data)){
+			if(isset($data['token'])){
+				$token = $data['token'];
+			}
+			if(isset($data['email'])){
+				$email = $data['email'];
+			}
 		}
 		if ($token && $email) {
 			try {

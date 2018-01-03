@@ -12,6 +12,10 @@ abstract class JsonAbstractController extends AbstractController {
         $this->app->response->header('Content-Type', 'application/json; charset=utf-8');
     }
 
+    /**
+     *
+     * @return array|mixed|null
+     */
     protected function readData(){
     	//$data = json_decode($request->getBody(), true) ?: $request->params();
     	$data = null;
