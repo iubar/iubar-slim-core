@@ -16,8 +16,9 @@ abstract class ApiJwtController extends JsonAbstractController {
 
 	protected function isAuthenticated() {
 		$request = \Slim\Slim::getInstance()->request;
-		$token = $request->params('token');
-		$email = $request->params('email');
+		$data = $this->readData();
+		$token = $data['token'];
+		$email = $data['email'];
 		if ($token && $email) {
 			try {
 				// decode the jwt using the key from config

@@ -24,12 +24,10 @@ abstract class JsonSimpleSafeAbstractController extends JsonAbstractController {
 	}
 
 	protected function isAuthenticated(){
-		$request = $this->app->request;
-		$this->user = $request->params('user');
-		// E' inutile invocare rawurldecode(), poichè  $request->params() effettua già la stessa decodifica
-		// $this->ts_str = rawurldecode($request->params('ts'));
-		$this->ts_str = $request->params('ts');
-		$this->hash = $request->params('hash');
+		$data = $this->readData();
+		$this->user = $data['user'];
+		$this->ts_str = $data['ts'];
+		$this->hash = $data['hash'];
 		$b = $this->validate();
 		if(!$b){
 			$this->sendHmacError();

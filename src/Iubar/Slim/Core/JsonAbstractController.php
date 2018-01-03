@@ -12,6 +12,34 @@ abstract class JsonAbstractController extends AbstractController {
         $this->app->response->header('Content-Type', 'application/json; charset=utf-8');
     }
 
+
+    protected function readData(){
+    	//$data = json_decode($request->getBody(), true) ?: $request->params();
+    	$data = null;
+
+    	$request = $this->app->request;
+    	$ct = $request->getContentType();
+
+    	$pos1 = strpos($ct, 'application/json');
+    	$pos2 = strpos($ct, 'multipart/form-data');
+    	// $pos3 = strpos($ct, 'application/x-www-form-urlencoded');
+
+    	if ($pos1 !== false) { //  'application/json'
+    		$body = $request->getBody();  // When you post application/json data it will not populate $_POST and it will not be available from $app->request->post()
+    		$data = json_decode($body, true);
+    	}else if($pos2 !== false){
+    		$data = [
+    			'files' => $_FILES,
+    			'data' => $_REQUEST
+    		];
+    	}else {
+    		$data = $request->params(); // The params() method will first search PUT variables, then POST variables, then GET variables. If no variables are found, null is returned.
+    		// E' inutile invocare rawurldecode(), poichè  $request->params() effettua già la stessa decodifica
+    	}
+
+    	return $data;
+    }
+
     protected function getJsonDecodedFromPost(){
         // $this->app->response()->header("Content-Type", "application/json");
         // obtain the JSON of the body of the request
@@ -35,7 +63,7 @@ abstract class JsonAbstractController extends AbstractController {
         $response_array = array();
         $response_array['code'] = $code;
         $response_array['response'] = $message;
-         
+
         if ( $json_array !== null && count($json_array) > 0){
             $response_array['data'] = $json_array;
         }
