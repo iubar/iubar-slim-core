@@ -12,12 +12,11 @@ abstract class JsonAbstractController extends AbstractController {
         $this->app->response->header('Content-Type', 'application/json; charset=utf-8');
     }
 
-
     protected function readData(){
     	//$data = json_decode($request->getBody(), true) ?: $request->params();
     	$data = null;
 
-    	$request = $this->app->request;
+    	$request = $this->app->request; // oppure \Slim\Slim::getInstance()->request;
     	$ct = $request->getContentType();
 
     	$pos1 = strpos($ct, 'application/json');

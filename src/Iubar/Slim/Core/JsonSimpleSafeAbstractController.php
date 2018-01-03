@@ -25,9 +25,15 @@ abstract class JsonSimpleSafeAbstractController extends JsonAbstractController {
 
 	protected function isAuthenticated(){
 		$data = $this->readData();
-		$this->user = $data['user'];
-		$this->ts_str = $data['ts'];
-		$this->hash = $data['hash'];
+		if(isset($data['user'])){
+			$this->user = $data['user'];
+		}
+		if(isset($data['ts'])){
+			$this->ts_str = $data['ts'];
+		}
+		if(isset($data['hash'])){
+			$this->hash = $data['hash'];
+		}
 		$b = $this->validate();
 		if(!$b){
 			$this->sendHmacError();
