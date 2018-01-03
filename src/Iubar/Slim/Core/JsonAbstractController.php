@@ -40,6 +40,12 @@ abstract class JsonAbstractController extends AbstractController {
     	return $data;
     }
 
+    /**
+     * Nota: il metodo non gestisce POST di tipo 'application/x-www-form-urlencoded'
+     * ma solo di tipo 'application/json'
+     *
+     * @return mixed
+     */
     protected function getJsonDecodedFromPost(){
         // $this->app->response()->header("Content-Type", "application/json");
         // obtain the JSON of the body of the request
