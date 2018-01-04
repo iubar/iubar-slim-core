@@ -11,7 +11,8 @@ class JwtManager {
 	public static function createToken($email, $api_key) {
 		$token_id = base64_encode(@mcrypt_create_iv(32));
 		$issued_at = time();
-		$not_before = $issued_at + self::getNotBeforeTime();
+		// $not_before = $issued_at + self::getNotBeforeTime();
+		$not_before = $issued_at;
 		$expire = $issued_at + self::getExpireTime();
 		$server_name = $_SERVER['HTTP_HOST'];
 
