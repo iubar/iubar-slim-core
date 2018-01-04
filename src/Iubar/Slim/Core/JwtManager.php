@@ -11,8 +11,8 @@ class JwtManager {
 	public static function createToken($email, $api_key) {
 		$token_id = base64_encode(@mcrypt_create_iv(32));
 		$issued_at = time();
-		$not_before = $issued_at + 10; // Adding 10 seconds
-		$expire = $not_before + 60; // Adding 60 seconds
+		$not_before = $issued_at + self::getNotBeforeTime();
+		$expire = $issued_at + self::getExpireTime();
 		$server_name = $_SERVER['HTTP_HOST'];
 
 		// Create the token as an array
@@ -59,6 +59,14 @@ class JwtManager {
 			$secret_key, // The signing key
 			self::ALGORITHM // Algorithm used to sign the token, see https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40#section-3
 		);
+	}
+
+	private static function getNotBeforeTime(){
+		return 600; // 10 minuti
+	}
+
+	private static function getExpireTime(){
+		return 1200; // 20 minuti
 	}
 
 }
