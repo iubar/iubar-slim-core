@@ -31,10 +31,11 @@ abstract class JsonAbstractController extends AbstractController {
     		$body = $request->getBody();  // When you post application/json data it will not populate $_POST and it will not be available from $app->request->post()
     		$data = json_decode($body, true);
     	}else if($pos2 !== false){ // il codice nel blocco seguente è solo d'esempio, non ha funzionalità pratiche
-    		$data = [
-    			'files' => $_FILES,
-    			'data' => $_REQUEST
-    		];
+//     		$data = [
+//     			'files' => $_FILES,
+//     			'data' => $_REQUEST
+//     		];
+    		$data = $_REQUEST['file'];
     	}else {
     		$data = $request->params(); // The params() method will first search PUT variables, then POST variables, then GET variables. If no variables are found, null is returned.
     		// E' inutile invocare rawurldecode(), poichè  $request->params() effettua già la stessa decodifica
