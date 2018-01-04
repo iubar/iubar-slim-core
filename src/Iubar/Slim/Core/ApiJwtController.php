@@ -18,14 +18,26 @@ abstract class ApiJwtController extends JsonAbstractController {
 		$token = null;
 		$email = null;
 		$data = $this->readData();
-// 		if(is_array($data)){
+
+		if (isset($data['auth'])){
+			$auth = $data['auth'];
+			if(isset($auth['token'])){
+				$token = $auth['token'];
+			}
+
+			if(isset($auth['email'])){
+				$email = $auth['email'];
+			}
+		} else {
 			if(isset($data['token'])){
 				$token = $data['token'];
 			}
+
 			if(isset($data['email'])){
 				$email = $data['email'];
 			}
-// 		}
+		}
+
 		if ($token && $email) {
 			try {
 				// decode the jwt using the key from config
