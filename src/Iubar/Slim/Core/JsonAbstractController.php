@@ -30,7 +30,7 @@ abstract class JsonAbstractController extends AbstractController {
     	if ($pos1 !== false) { //  'application/json'
     		$body = $request->getBody();  // When you post application/json data it will not populate $_POST and it will not be available from $app->request->post()
     		$data = json_decode($body, true);
-    	}else if($pos2 !== false){
+    	}else if($pos2 !== false){ // il codice nel blocco seguente è solo d'esempio, non ha funzionalità pratiche
     		$data = [
     			'files' => $_FILES,
     			'data' => $_REQUEST
