@@ -146,7 +146,7 @@ abstract class JsonSimpleSafeAbstractController extends JsonAbstractController {
 			$now = new \DateTime();
 
 			// Normalizzo le timezone dei due timestamp
-			$dtz = new \DateTimeZone('Europe/Rome');
+			$dtz = new \DateTimeZone('Europe/Rome'); // Avrei potuto utilizzare qualsiasi TZ, perchè utilizzo la stessa esclusivamente per normalizzare le date prima di calcolarne la differenza
 			$now->setTimezone($dtz);
 			$dateTime->setTimezone($dtz);
 			$diffInSeconds = $now->getTimestamp() - $dateTime->getTimestamp();
