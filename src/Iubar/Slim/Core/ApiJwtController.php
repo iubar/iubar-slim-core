@@ -69,7 +69,7 @@ abstract class ApiJwtController extends JsonAbstractController {
 			}
 		} else {
 			// The request lacks the authorization token
-			$this->responseStatus(ResponseCode::BAD_REQUEST, [], 'Token or email not found in request');
+			$this->responseStatus(ResponseCode::BAD_REQUEST, [], 'Token or email not found in the request');
 		}
 
 		return false;
