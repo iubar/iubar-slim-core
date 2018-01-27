@@ -61,11 +61,11 @@ abstract class ApiJwtController extends JsonAbstractController {
 					return true;
 				}
 			} catch (SignatureInvalidException $e) {
-				$this->responseStatus(ResponseCode::UNAUTHORIZED, [], 'Unauthorized (signature invalid)');
+				$this->responseStatus(ResponseCode::UNAUTHORIZED, [], 'Unauthorized (signature invalid): ' . $e->getMessage());
 			} catch (BeforeValidException $e) {
-				$this->responseStatus(ResponseCode::UNAUTHORIZED, [], 'Unauthorized (before valid)');
+				$this->responseStatus(ResponseCode::UNAUTHORIZED, [], 'Unauthorized (before valid): ' . $e->getMessage());
 			} catch (ExpiredException $e) {
-				$this->responseStatus(ResponseCode::UNAUTHORIZED, [], 'Unauthorized (expired)');
+				$this->responseStatus(ResponseCode::UNAUTHORIZED, [], 'Unauthorized (expired): ' . $e->getMessage());
 			}
 		} else {
 			// The request lacks the authorization token
@@ -105,7 +105,6 @@ abstract class ApiJwtController extends JsonAbstractController {
 		} else {
 			throw new \InvalidArgumentException('email or api key wrong');
 		}
-
 		return $token;
 	}
 
@@ -117,7 +116,6 @@ abstract class ApiJwtController extends JsonAbstractController {
 				$b = $this->isUserRegistered($email);
 			}
 		}
-
 		return $b;
 	}
 
