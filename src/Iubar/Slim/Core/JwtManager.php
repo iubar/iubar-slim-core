@@ -61,6 +61,10 @@ class JwtManager {
 			self::ALGORITHM // Algorithm used to sign the token, see https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40#section-3
 		);
 	}
+	
+	public static function decodeToken($token, $api_key){
+		return JWT::decode($token, $api_key, self::ALGORITHM);
+	}
 
 	private static function getNotBeforeTime(){
 		return 600; // 10 minuti
