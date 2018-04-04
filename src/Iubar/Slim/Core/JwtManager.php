@@ -63,7 +63,7 @@ class JwtManager {
 	}
 	
 	public static function decodeToken($token, $api_key){
-		return JWT::decode($token, $api_key, self::ALGORITHM);
+		return JWT::decode($token, $api_key, [self::ALGORITHM]);
 	}
 
 	private static function getNotBeforeTime(){
