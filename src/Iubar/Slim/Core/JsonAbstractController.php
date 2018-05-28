@@ -74,9 +74,9 @@ abstract class JsonAbstractController extends AbstractController {
         $response_array['code'] = $code;
         $response_array['response'] = $message;
 
-        if ( $json_array !== null && count($json_array) > 0){
+       // if ( $json_array !== null && count($json_array) > 0){
             $response_array['data'] = $json_array;
-        }
+      //  }
 
         $result = json_encode($response_array, JSON_PRETTY_PRINT);
         if( $result === false ) {
