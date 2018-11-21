@@ -23,15 +23,24 @@ abstract class JsonSafeAbstractController extends JsonSimpleSafeAbstractControll
 		if($this->user && $this->ts_str){
 			$api_key = $this->getApikey($this->user);
 			if($api_key){
-				$url = 'http://' . $_SERVER['HTTP_HOST'] . $request->getRootUri() . $request->getResourceUri();
+				$url = $this->getProtocol() . $_SERVER['HTTP_HOST'] . $request->getRootUri() . $request->getResourceUri();
 				$data = $url . $this->user . $this->ts_str . $api_key;
 				$raw_hash = hash_hmac('sha256', $data, $api_key, true); // Vedi https://en.wikipedia.org/wiki/Hash-based_message_authentication_code
 				$hash = base64_encode($raw_hash);
 			}
 		}
 		return $hash;
-	}
-
+    }
+    
+    private function getProtocol(){
+        $protocol = 'http';
+        if (isset($_SERVER['HTTPS']) &&($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1) ||
+            isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
+            $protocol = 'https';
+        }
+    
+        return $protocol . '://';
+    }
 
 	/**
 	 * @override
