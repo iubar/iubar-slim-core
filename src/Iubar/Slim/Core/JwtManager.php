@@ -9,7 +9,7 @@ class JwtManager {
 	const ALGORITHM = 'HS512';
 
 	public static function createToken($email, $api_key) {
-		$token_id = base64_encode(@mcrypt_create_iv(32));
+		$token_id = base64_encode(random_bytes(32));
 		$issued_at = time();
 		// $not_before = $issued_at + self::getNotBeforeTime();
 		$not_before = $issued_at;
