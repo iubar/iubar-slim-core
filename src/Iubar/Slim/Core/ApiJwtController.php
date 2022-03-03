@@ -5,6 +5,7 @@ use Firebase\JWT\JWT;
 use Firebase\JWT\SignatureInvalidException;
 use Firebase\JWT\BeforeValidException;
 use Firebase\JWT\ExpiredException;
+use Firebase\JWT\Key;
 
 abstract class ApiJwtController extends JsonAbstractController {
 
@@ -49,9 +50,7 @@ abstract class ApiJwtController extends JsonAbstractController {
 				// Source: http://self-issued.info/docs/draft-ietf-oauth-json-web-token.html#nbfDef
 				JWT::$leeway = 60; // $leeway in seconds
 
-				$decoded = JWT::decode($token, $secret_key, array(
-					JwtManager::ALGORITHM
-				));
+				$decoded = JWT::decode($token, new Key($secret_key, JwtManager::ALGORITHM));
 
 				// NOTE: This will now be an object instead of an associative array. To get
 				// an associative array, you will need to cast it as such:
